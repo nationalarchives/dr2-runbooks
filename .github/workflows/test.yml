@@ -1,0 +1,14 @@
+name: Run runbooks tests
+on:
+  push:
+    branches-ignore:
+      - main
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: nationalarchives/tdr-github-actions/.github/actions/run-git-secrets@main
+      - run: |
+          pip install -r requirements.txt
+          AWS_DEFAULT_REGION=eu-west-2 pytest

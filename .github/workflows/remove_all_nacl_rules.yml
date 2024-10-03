@@ -1,0 +1,33 @@
+name: Remove all nacl rules
+on:
+  workflow_dispatch:
+    inputs:
+      environment:
+        type: choice
+        description: 'Environment'
+        required: true
+        options:
+          - intg
+          - staging
+          - prod
+        default: 'intg'
+
+permissions:
+  id-token: write
+  contents: write
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    environment: ${{ github.event.inputs.environment }}
+    steps:
+      - uses: actions/checkout@v4
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v4.0.2
+        with:
+          role-to-assume: arn:aws:iam::${{ secrets.ACCOUNT_NUMBER }}:role/${{ github.event.inputs.environment }}-dr2-runbook-remove-all-nacl-rules
+          aws-region: eu-west-2
+          role-session-name: RunbookRemoveAllNaclRules
+      - run: |
+          pip install -r requirements-runtime.txt
+          python remove_all_nacl_rules.py
+          
