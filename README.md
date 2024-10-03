@@ -8,11 +8,11 @@ Runbooks are predefined sets of instructions to handle specific operational scen
 
 ## Current Runbooks
 
-### Security Group Isolation Runbook
+### Remove NACL rules Runbook
 
-The first action in this repository focuses on removing security group rules from a designated security group. 
+The first action in this repository focuses on removing NACL rules from all NACLs for an account 
 This action is intended to isolate our code in AWS in the event of compromised code or a security breach. 
-By removing security group rules, we effectively cut off network access, minimising the risk of further exploitation.
+By removing NACL rules, we effectively cut off network access, minimising the risk of further exploitation.
 
 ## Infrastructure
 The workflows require access to AWS. The roles and policies are defined in [the dr2-terrarform-environments repository](https://github.com/nationalarchives/dr2-terraform-environments/blob/main/runbooks.tf)
