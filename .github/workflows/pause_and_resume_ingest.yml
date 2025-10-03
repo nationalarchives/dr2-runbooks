@@ -23,7 +23,7 @@ permissions:
   id-token: write
   contents: write
 jobs:
-  deploy:
+  pause_and_resume:
     runs-on: ubuntu-latest
     environment: ${{ github.event.inputs.environment }}
     steps:
