@@ -1,4 +1,4 @@
-name: Pause and resume ingest
+name: Pause and resume Preservica activity
 on:
   workflow_dispatch:
     inputs:
