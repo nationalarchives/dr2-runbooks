@@ -18,7 +18,7 @@ on:
         options:
           - 'true'
           - 'false'
-run-name: Running pause and resume with pause set to ${{inputs.pause}} on ${{inputs.environment}}"
+run-name: Running pause and resume with pause set to ${{inputs.pause}} on ${{inputs.environment}}
 permissions:
   id-token: write
   contents: write
