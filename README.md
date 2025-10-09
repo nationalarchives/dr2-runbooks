@@ -14,6 +14,10 @@ The first action in this repository focuses on removing NACL rules from all NACL
 This action is intended to isolate our code in AWS in the event of compromised code or a security breach. 
 By removing NACL rules, we effectively cut off network access, minimising the risk of further exploitation.
 
+### Pause and resume ingest
+
+This will be used when we want to deploy breaking changes to production. It invokes a lambda in [the ingest repository](https://github.com/nationalarchives/dr2-ingest/tree/main/python/lambdas/pause-ingest)
+
 ### Pause and resume Preservica activity
 
 This will be used when Preservica is down for maintenance and upgrades. It invokes a lambda in [the ingest repository](https://github.com/nationalarchives/dr2-ingest/tree/main/python/lambdas/pause-preservica-activity)
