@@ -34,4 +34,4 @@ jobs:
           role-to-assume: arn:aws:iam::${{ secrets.ACCOUNT_NUMBER }}:role/${{ github.event.inputs.environment }}-dr2-runbook-pause-preservica-activity
           aws-region: eu-west-2
           role-session-name: PausePreservicaActivity
-      - run: aws lambda invoke --function-name intg-dr2-pause-preservica-activity --cli-binary-format raw-in-base64-out --payload '{"pause":${{ github.event.inputs.pause }}}' out
+      - run: aws lambda invoke --function-name ${{ github.event.inputs.environment }}-dr2-pause-preservica-activity --cli-binary-format raw-in-base64-out --payload '{"pause":${{ github.event.inputs.pause }}}' out
