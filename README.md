@@ -18,5 +18,9 @@ By removing NACL rules, we effectively cut off network access, minimising the ri
 
 This will be used when we want to deploy breaking changes to production. It invokes a lambda in [the ingest repository](https://github.com/nationalarchives/dr2-ingest/tree/main/python/lambdas/pause-ingest)
 
+### Pause and resume Preservica activity
+
+This will be used when Preservica is down for maintenance and upgrades. It invokes a lambda in [the ingest repository](https://github.com/nationalarchives/dr2-ingest/tree/main/python/lambdas/pause-preservica-activity)
+
 ## Infrastructure
 The workflows require access to AWS. The roles and policies are defined in [the dr2-terrarform-environments repository](https://github.com/nationalarchives/dr2-terraform-environments/blob/main/runbooks.tf)

@@ -1,0 +1,37 @@
+name: Pause and resume Preservica activity
+on:
+  workflow_dispatch:
+    inputs:
+      environment:
+        type: choice
+        description: 'Environment'
+        required: true
+        options:
+          - intg
+          - staging
+          - prod
+        default: 'intg'
+      pause:
+        type: choice
+        description: 'Choose true to pause Preservica activity and false to resume'
+        required: true
+        options:
+          - 'true'
+          - 'false'
+run-name: Running pause and resume with pause set to ${{inputs.pause}} on ${{inputs.environment}}
+permissions:
+  id-token: write
+  contents: write
+jobs:
+  pause_and_resume:
+    runs-on: ubuntu-latest
+    environment: ${{ github.event.inputs.environment }}
+    steps:
+      - uses: actions/checkout@09d2acae674a48949e3602304ab46fd20ae0c42f
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@a159d7bb5354cf786f855f2f5d1d8d768d9a08d1
+        with:
+          role-to-assume: arn:aws:iam::${{ secrets.ACCOUNT_NUMBER }}:role/${{ github.event.inputs.environment }}-dr2-runbook-pause-preservica-activity
+          aws-region: eu-west-2
+          role-session-name: PausePreservicaActivity
+      - run: aws lambda invoke --function-name intg-dr2-pause-preservica-activity --cli-binary-format raw-in-base64-out --payload '{"pause":${{ github.event.inputs.pause }}}' out
