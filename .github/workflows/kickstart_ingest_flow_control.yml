@@ -11,8 +11,6 @@ on:
           - staging
           - prod
         default: 'intg'
-  push:
-
 permissions:
   id-token: write
   contents: write
