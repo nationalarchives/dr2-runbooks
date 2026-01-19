@@ -1,0 +1,30 @@
+name: Kickstart ingest flow control
+on:
+  workflow_dispatch:
+    inputs:
+      environment:
+        type: choice
+        description: 'Environment'
+        required: true
+        options:
+          - intg
+          - staging
+          - prod
+        default: 'intg'
+
+permissions:
+  id-token: write
+  contents: write
+jobs:
+  kickstart_flow_control:
+    runs-on: ubuntu-latest
+    environment: ${{ github.event.inputs.environment }}
+    steps:
+      - uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@61815dcd50bd041e203e49132bacad1fd04d2708
+        with:
+          role-to-assume: arn:aws:iam::${{ secrets.ACCOUNT_NUMBER }}:role/${{ github.event.inputs.environment }}-dr2-runbook-kickstart-ingest-flow-control
+          aws-region: eu-west-2
+          role-session-name: KickstartIngestFlowControl
+      - run: aws lambda invoke --function-name ${{ github.event.inputs.environment }}-dr2-ingest-flow-control --payload '{"executionName":"MANUAL_RESTART", "taskToken":""}' out
