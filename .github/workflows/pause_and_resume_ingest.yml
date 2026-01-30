@@ -28,10 +28,24 @@ jobs:
     environment: ${{ github.event.inputs.environment }}
     steps:
       - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
-      - name: Configure AWS credentials
-        uses: aws-actions/configure-aws-credentials@61815dcd50bd041e203e49132bacad1fd04d2708 # v5.1.1
+      - uses: aws-actions/configure-aws-credentials@61815dcd50bd041e203e49132bacad1fd04d2708 # v5.1.1
         with:
           role-to-assume: arn:aws:iam::${{ secrets.ACCOUNT_NUMBER }}:role/${{ github.event.inputs.environment }}-dr2-runbook-pause-ingest
           aws-region: eu-west-2
           role-session-name: PauseIngest
       - run: aws lambda invoke --function-name ${{ github.event.inputs.environment }}-dr2-pause-ingest --cli-binary-format raw-in-base64-out --payload '{"pause":${{ github.event.inputs.pause }}}' out
+      - uses: aws-actions/configure-aws-credentials@a159d7bb5354cf786f855f2f5d1d8d768d9a08d1
+        with:
+          role-to-assume: arn:aws:iam::${{ secrets.ACCOUNT_NUMBER }}:role/${{ github.event.inputs.environment }}-dr2-runbook-pause-preservica-activity
+          aws-region: eu-west-2
+          role-session-name: PausePreservicaActivity
+      - run: aws lambda invoke --function-name ${{ github.event.inputs.environment }}-dr2-pause-preservica-activity --cli-binary-format raw-in-base64-out --payload '{"pause":${{ github.event.inputs.pause }}}' out
+      - uses: aws-actions/configure-aws-credentials@61815dcd50bd041e203e49132bacad1fd04d2708 # v5.1.1
+        if: github.event.inputs.pause == 'false'
+        with:
+          role-to-assume: arn:aws:iam::${{ secrets.ACCOUNT_NUMBER }}:role/${{ github.event.inputs.environment }}-dr2-runbook-kickstart-ingest-flow-control
+          aws-region: eu-west-2
+          role-session-name: KickstartIngestFlowControl
+      - run: aws lambda invoke --function-name ${{ github.event.inputs.environment }}-dr2-ingest-flow-control --cli-binary-format raw-in-base64-out --payload '{"executionName":"MANUAL_RESTART", "taskToken":""}' out
+        if: github.event.inputs.pause == 'false'
+
