@@ -34,7 +34,7 @@ jobs:
           aws-region: eu-west-2
           role-session-name: PauseIngest
       - run: aws lambda invoke --function-name ${{ github.event.inputs.environment }}-dr2-pause-ingest --cli-binary-format raw-in-base64-out --payload '{"pause":${{ github.event.inputs.pause }}}' out
-      - uses: aws-actions/configure-aws-credentials@a159d7bb5354cf786f855f2f5d1d8d768d9a08d1
+      - uses: aws-actions/configure-aws-credentials@61815dcd50bd041e203e49132bacad1fd04d2708
         with:
           role-to-assume: arn:aws:iam::${{ secrets.ACCOUNT_NUMBER }}:role/${{ github.event.inputs.environment }}-dr2-runbook-pause-preservica-activity
           aws-region: eu-west-2
