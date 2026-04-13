@@ -28,19 +28,19 @@ jobs:
     environment: ${{ github.event.inputs.environment }}
     steps:
       - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
-      - uses: aws-actions/configure-aws-credentials@8df5847569e6427dd6c4fb1cf565c83acfa8afa7 # v6.0.0
+      - uses: aws-actions/configure-aws-credentials@ec61189d14ec14c8efccab744f656cffd0e33f37 # v6.1.0
         with:
           role-to-assume: arn:aws:iam::${{ secrets.ACCOUNT_NUMBER }}:role/${{ github.event.inputs.environment }}-dr2-runbook-pause-ingest
           aws-region: eu-west-2
           role-session-name: PauseIngest
       - run: aws lambda invoke --function-name ${{ github.event.inputs.environment }}-dr2-pause-ingest --cli-binary-format raw-in-base64-out --payload '{"pause":${{ github.event.inputs.pause }}}' out
-      - uses: aws-actions/configure-aws-credentials@8df5847569e6427dd6c4fb1cf565c83acfa8afa7 # v6.0.0
+      - uses: aws-actions/configure-aws-credentials@ec61189d14ec14c8efccab744f656cffd0e33f37 # v6.1.0
         with:
           role-to-assume: arn:aws:iam::${{ secrets.ACCOUNT_NUMBER }}:role/${{ github.event.inputs.environment }}-dr2-runbook-pause-preservica-activity
           aws-region: eu-west-2
           role-session-name: PausePreservicaActivity
       - run: aws lambda invoke --function-name ${{ github.event.inputs.environment }}-dr2-pause-preservica-activity --cli-binary-format raw-in-base64-out --payload '{"pause":${{ github.event.inputs.pause }}}' out
-      - uses: aws-actions/configure-aws-credentials@8df5847569e6427dd6c4fb1cf565c83acfa8afa7 # v6.0.0
+      - uses: aws-actions/configure-aws-credentials@ec61189d14ec14c8efccab744f656cffd0e33f37 # v6.1.0
         if: github.event.inputs.pause == 'false'
         with:
           role-to-assume: arn:aws:iam::${{ secrets.ACCOUNT_NUMBER }}:role/${{ github.event.inputs.environment }}-dr2-runbook-kickstart-ingest-flow-control
