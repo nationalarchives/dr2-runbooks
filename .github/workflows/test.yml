@@ -8,7 +8,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
-      - uses: nationalarchives/tdr-github-actions/.github/actions/run-git-secrets@27efbc03aaaa9696eea85ab7a9363d6f92733471 # v0.0.34
+      - uses: nationalarchives/tdr-github-actions/.github/actions/run-git-secrets@8f8b90556173b43554c22d6b5f192fe9f26ad8ab # v0.0.36
       - run: |
           pip install -r requirements.txt
           AWS_DEFAULT_REGION=eu-west-2 pytest
