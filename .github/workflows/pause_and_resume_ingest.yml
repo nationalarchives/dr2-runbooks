@@ -51,6 +51,8 @@ jobs:
           role-to-assume: arn:aws:iam::${{ secrets.ACCOUNT_NUMBER }}:role/${{ github.event.inputs.environment }}-dr2-runbooks-kickstart-ingest-flow-control
           aws-region: eu-west-2
           role-session-name: KickstartIngestFlowControl
-      - run: aws lambda invoke --function-name ${{ github.event.inputs.environment }}-dr2-ingest-flow-control --cli-binary-format raw-in-base64-out --payload '{"executionName":"MANUAL_RESTART", "taskToken":""}' out
+      - run: aws lambda invoke --function-name $ENVIRONMENT-dr2-ingest-flow-control --cli-binary-format raw-in-base64-out --payload '{"executionName":"MANUAL_RESTART", "taskToken":""}' out
         if: github.event.inputs.pause == 'false'
+        env:
+          ENVIRONMENT: ${{ github.event.inputs.environment }}
 
