@@ -35,20 +35,20 @@ jobs:
           persist-credentials: false
       - uses: aws-actions/configure-aws-credentials@e6de054238d6b7531b4efff3b6587d9aade6a06c # v6.2.3
         with:
-          role-to-assume: arn:aws:iam::${{ secrets.ACCOUNT_NUMBER }}:role/${{ github.event.inputs.environment }}-dr2-runbook-pause-ingest
+          role-to-assume: arn:aws:iam::${{ secrets.ACCOUNT_NUMBER }}:role/${{ github.event.inputs.environment }}-dr2-runbooks-pause-ingest
           aws-region: eu-west-2
           role-session-name: PauseIngest
       - run: aws lambda invoke --function-name $ENVIRONMENT-dr2-pause-ingest --cli-binary-format raw-in-base64-out --payload "{\"pause\":$PAUSE}" out
       - uses: aws-actions/configure-aws-credentials@e6de054238d6b7531b4efff3b6587d9aade6a06c # v6.2.3
         with:
-          role-to-assume: arn:aws:iam::${{ secrets.ACCOUNT_NUMBER }}:role/${{ github.event.inputs.environment }}-dr2-runbook-pause-preservica-activity
+          role-to-assume: arn:aws:iam::${{ secrets.ACCOUNT_NUMBER }}:role/${{ github.event.inputs.environment }}-dr2-runbooks-pause-preservica-activity
           aws-region: eu-west-2
           role-session-name: PausePreservicaActivity
       - run: aws lambda invoke --function-name $ENVIRONMENT-dr2-pause-preservica-activity --cli-binary-format raw-in-base64-out --payload "{\"pause\":$PAUSE}" out
       - uses: aws-actions/configure-aws-credentials@e6de054238d6b7531b4efff3b6587d9aade6a06c # v6.2.3
         if: github.event.inputs.pause == 'false'
         with:
-          role-to-assume: arn:aws:iam::${{ secrets.ACCOUNT_NUMBER }}:role/${{ github.event.inputs.environment }}-dr2-runbook-kickstart-ingest-flow-control
+          role-to-assume: arn:aws:iam::${{ secrets.ACCOUNT_NUMBER }}:role/${{ github.event.inputs.environment }}-dr2-runbooks-kickstart-ingest-flow-control
           aws-region: eu-west-2
           role-session-name: KickstartIngestFlowControl
       - run: aws lambda invoke --function-name ${{ github.event.inputs.environment }}-dr2-ingest-flow-control --cli-binary-format raw-in-base64-out --payload '{"executionName":"MANUAL_RESTART", "taskToken":""}' out
