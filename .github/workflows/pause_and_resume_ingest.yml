@@ -33,19 +33,19 @@ jobs:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
           persist-credentials: false
-      - uses: aws-actions/configure-aws-credentials@e6de054238d6b7531b4efff3b6587d9aade6a06c # v6.2.3
+      - uses: aws-actions/configure-aws-credentials@e1253824e5c10ff9df46874f81ed3ec929e19cfd # v6.3.0
         with:
           role-to-assume: arn:aws:iam::${{ secrets.ACCOUNT_NUMBER }}:role/${{ github.event.inputs.environment }}-dr2-runbooks-pause-ingest
           aws-region: eu-west-2
           role-session-name: PauseIngest
       - run: aws lambda invoke --function-name $ENVIRONMENT-dr2-pause-ingest --cli-binary-format raw-in-base64-out --payload "{\"pause\":$PAUSE}" out
-      - uses: aws-actions/configure-aws-credentials@e6de054238d6b7531b4efff3b6587d9aade6a06c # v6.2.3
+      - uses: aws-actions/configure-aws-credentials@e1253824e5c10ff9df46874f81ed3ec929e19cfd # v6.3.0
         with:
           role-to-assume: arn:aws:iam::${{ secrets.ACCOUNT_NUMBER }}:role/${{ github.event.inputs.environment }}-dr2-runbooks-pause-preservica-activity
           aws-region: eu-west-2
           role-session-name: PausePreservicaActivity
       - run: aws lambda invoke --function-name $ENVIRONMENT-dr2-pause-preservica-activity --cli-binary-format raw-in-base64-out --payload "{\"pause\":$PAUSE}" out
-      - uses: aws-actions/configure-aws-credentials@e6de054238d6b7531b4efff3b6587d9aade6a06c # v6.2.3
+      - uses: aws-actions/configure-aws-credentials@e1253824e5c10ff9df46874f81ed3ec929e19cfd # v6.3.0
         if: github.event.inputs.pause == 'false'
         with:
           role-to-assume: arn:aws:iam::${{ secrets.ACCOUNT_NUMBER }}:role/${{ github.event.inputs.environment }}-dr2-runbooks-kickstart-ingest-flow-control
